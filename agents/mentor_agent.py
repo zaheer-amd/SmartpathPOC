@@ -1,31 +1,39 @@
-from knowledge.loader import get_csd_policy
+from knowledge.loader import get_policy_by_plan
 
-def get_mentor_response(model, user_question: str, claim_type: str = "Vision (Glasses)", receipt_total: float = 250.0) -> str:
+def get_mentor_response(model, user_question: str, plan_class: str) -> dict:
     """
-    Generates a mentoring response based on questions and grounded in the knowledge layer policy.
+    Provides context-aware help based on the active policy.
     """
-    policy_content = get_csd_policy()
+    policy_content = get_policy_by_plan(plan_class)
     
     mentor_prompt = f"""
-You are the SmartPath Live Assistant guiding a trainee claims adjudicator.
+You are the SmartPath Trainee Mentor, a helpful assistant for a claims adjudicator.
 
---- KNOWLEDGE BASE: POLICY RULES ---
+--- KNOWLEDGE BASE: ACTIVE POLICY RULES ---
 {policy_content}
 --- END POLICY RULES ---
 
 CURRENT CLAIM SCENARIO:
-- Claim Type: {claim_type}
-- Receipt Total: ${receipt_total:.2f}
+- Plan Class: {plan_class}
 
 TRAINEE QUESTION:
-"{user_question}"
+{user_question}
 
 INSTRUCTIONS:
-1. Answer the trainee's question politely and concisely.
-2. Base all explanations and guidance strictly on the KNOWLEDGE BASE policy rules.
-3. Provide hints and guiding logic (e.g. how policy limits or out-of-pocket rules work).
-4. DO NOT directly give away the exact final calculation or answers.
+1. Answer the trainee's question using ONLY the provided Knowledge Base rules.
+2. Do not invent any rules, limits, or codes that are not explicitly stated above.
+3. If the trainee asks about a scenario or service not covered by the active policy, politely inform them that you only have access to the rules for the {plan_class} plan.
+4. Be encouraging but professional.
 5. Keep your answer under 3 sentences.
 """
     
-    return model.generate_content(mentor_prompt).text
+    response = model.generate_content(mentor_prompt)
+    usage = response.usage_metadata
+    return {
+        "text": response.text,
+        "telemetry": {
+            "prompt_tokens": usage.prompt_token_count,
+            "completion_tokens": usage.candidates_token_count,
+            "total_tokens": usage.total_token_count
+        }
+    }
