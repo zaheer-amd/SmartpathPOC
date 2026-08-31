@@ -10,8 +10,10 @@ import scala.util.Success
 
 //#main-class
 object QuickstartApp {
-  //#start-http-server
-  private def startHttpServer(routes: Route)(implicit system: ActorSystem[_]): Unit = {
+  // #start-http-server
+  private def startHttpServer(
+      routes: Route
+  )(implicit system: ActorSystem[_]): Unit = {
     // Akka HTTP still needs a classic ActorSystem to start
     import system.executionContext
 
@@ -19,28 +21,33 @@ object QuickstartApp {
     futureBinding.onComplete {
       case Success(binding) =>
         val address = binding.localAddress
-        system.log.info("Server online at http://{}:{}/", address.getHostString, address.getPort)
+        system.log.info(
+          "Server online at http://{}:{}/",
+          address.getHostString,
+          address.getPort
+        )
       case Failure(ex) =>
         system.log.error("Failed to bind HTTP endpoint, terminating system", ex)
         system.terminate()
     }
   }
-  //#start-http-server
+  // #start-http-server
   def main(args: Array[String]): Unit = {
-    //#server-bootstrapping
+    // #server-bootstrapping
     val rootBehavior = Behaviors.setup[Nothing] { context =>
       val userRegistryActor = context.spawn(UserRegistry(), "UserRegistryActor")
       val traineeActor = context.spawn(TraineeActor(), "TraineeActor")
       context.watch(userRegistryActor)
       context.watch(traineeActor)
 
-      val routes = new UserRoutes(userRegistryActor, traineeActor)(context.system)
+      val routes =
+        new UserRoutes(userRegistryActor, traineeActor)(context.system)
       startHttpServer(routes.userRoutes)(context.system)
 
       Behaviors.empty
     }
     val system = ActorSystem[Nothing](rootBehavior, "HelloAkkaHttpServer")
-    //#server-bootstrapping
+    // #server-bootstrapping
   }
 }
 //#main-class

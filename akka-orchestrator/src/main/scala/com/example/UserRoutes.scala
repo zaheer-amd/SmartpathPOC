@@ -42,7 +42,7 @@ class UserRoutes(userRegistry: ActorRef[UserRegistry.Command], traineeActor: Act
       path("submit") {
         post {
           entity(as[JsonFormats.SubmitPayload]) { payload =>
-            onSuccess(traineeActor.ask(TraineeActor.SubmitClaim(payload.api_key, payload.eligible_amount, payload.oop_amount, payload.decision, _))) { response =>
+            onSuccess(traineeActor.ask(TraineeActor.SubmitClaim(payload.api_key, payload.plan_class, payload.eligible_amount, payload.oop_amount, payload.decision, payload.model, _))) { response =>
               val statusCode = StatusCodes.getForKey(response.statusCode).getOrElse(StatusCodes.InternalServerError)
               complete(HttpResponse(statusCode, entity = HttpEntity(ContentTypes.`application/json`, response.payload)))
             }
@@ -52,7 +52,7 @@ class UserRoutes(userRegistry: ActorRef[UserRegistry.Command], traineeActor: Act
       path("chat") {
         post {
           entity(as[JsonFormats.ChatPayload]) { payload =>
-            onSuccess(traineeActor.ask(TraineeActor.SubmitChat(payload.api_key, payload.message, _))) { response =>
+            onSuccess(traineeActor.ask(TraineeActor.SubmitChat(payload.api_key, payload.plan_class, payload.message, payload.model, _))) { response =>
               val statusCode = StatusCodes.getForKey(response.statusCode).getOrElse(StatusCodes.InternalServerError)
               complete(HttpResponse(statusCode, entity = HttpEntity(ContentTypes.`application/json`, response.payload)))
             }

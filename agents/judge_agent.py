@@ -1,11 +1,11 @@
 import json
-from knowledge.loader import get_csd_policy
+from knowledge.loader import get_policy_by_plan
 
-def evaluate_assessment(model, eligible_amount: float, oop_amount: float, decision: str, claim_type: str = "Vision (Glasses)", receipt_total: float = 250.0) -> dict:
+def evaluate_assessment(model, eligible_amount: float, oop_amount: float, decision: str, plan_class: str) -> dict:
     """
     Evaluates trainee submission against the active knowledge layer policy rules.
     """
-    policy_content = get_csd_policy()
+    policy_content = get_policy_by_plan(plan_class)
     
     judge_prompt = f"""
 You are the SmartPath Assessment Evaluator.
@@ -15,8 +15,7 @@ You are the SmartPath Assessment Evaluator.
 --- END POLICY RULES ---
 
 CURRENT CLAIM SCENARIO:
-- Claim Type: {claim_type}
-- Receipt Total: ${receipt_total:.2f}
+- Plan Class: {plan_class}
 
 TRAINEE SUBMISSION:
 - Trainee Eligible Amount: ${eligible_amount:.2f}
@@ -24,7 +23,7 @@ TRAINEE SUBMISSION:
 - Trainee Adjudication Decision: {decision}
 
 TASK:
-1. Refer strictly to the KNOWLEDGE BASE policy rules to determine the correct Eligible Amount, Out-of-Pocket Amount, and Decision for a ${receipt_total:.2f} claim.
+1. Refer strictly to the KNOWLEDGE BASE policy rules to determine the correct Eligible Amount, Out-of-Pocket Amount, and Decision for the current claim.
 2. Compare the trainee's submission against the policy rules.
 3. If all values are correct, Status is "Pass" and Score is 100. Otherwise, Status is "Fail" and Score is 0.
 4. Return ONLY a valid JSON object without markdown fences, matching this structure:
@@ -37,4 +36,14 @@ TASK:
     
     response = model.generate_content(judge_prompt)
     clean_json = response.text.replace("```json", "").replace("```", "").strip()
-    return json.loads(clean_json)
+    result_dict = json.loads(clean_json)
+    
+    usage = response.usage_metadata
+    return {
+        "assessment": result_dict,
+        "telemetry": {
+            "prompt_tokens": usage.prompt_token_count,
+            "completion_tokens": usage.candidates_token_count,
+            "total_tokens": usage.total_token_count
+        }
+    }

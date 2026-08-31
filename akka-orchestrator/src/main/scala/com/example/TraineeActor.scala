@@ -11,15 +11,19 @@ object TraineeActor {
   sealed trait Command
   final case class SubmitClaim(
       apiKey: String,
+      planClass: String,
       eligible: Double,
       oop: Double,
       decision: String,
+      model: Option[String],
       replyTo: ActorRef[SubmitResponse]
   ) extends Command
 
   final case class SubmitChat(
       apiKey: String,
+      planClass: String,
       message: String,
+      model: Option[String],
       replyTo: ActorRef[SubmitResponse]
   ) extends Command
 
@@ -34,10 +38,11 @@ object TraineeActor {
     import system.executionContext
 
     Behaviors.receiveMessage {
-      case SubmitClaim(apiKey, eligible, oop, decision, replyTo) =>
-        context.log.info(s"Actor received claim: $eligible, $oop, $decision")
+      case SubmitClaim(apiKey, planClass, eligible, oop, decision, modelOpt, replyTo) =>
+        context.log.info(s"Actor received claim for plan $planClass: $eligible, $oop, $decision, model: $modelOpt")
 
-        val jsonPayload = s"""{"api_key": "$apiKey", "eligible_amount": $eligible, "oop_amount": $oop, "decision": "$decision"}"""
+        val modelField = modelOpt.map(m => s""", "model": "$m"""").getOrElse("")
+        val jsonPayload = s"""{"api_key": "$apiKey", "plan_class": "$planClass", "eligible_amount": $eligible, "oop_amount": $oop, "decision": "$decision"$modelField}"""
         
         val request = HttpRequest(
           method = HttpMethods.POST,
@@ -53,11 +58,12 @@ object TraineeActor {
         }
         Behaviors.same
 
-      case SubmitChat(apiKey, message, replyTo) =>
-        context.log.info(s"Actor received chat message: $message")
+      case SubmitChat(apiKey, planClass, message, modelOpt, replyTo) =>
+        context.log.info(s"Actor received chat message for $planClass: $message, model: $modelOpt")
         
         val escapedMessage = message.replace("\\", "\\\\").replace("\"", "\\\"").replace("\n", "\\n").replace("\r", "")
-        val jsonPayload = s"""{"api_key": "$apiKey", "message": "$escapedMessage"}"""
+        val modelField = modelOpt.map(m => s""", "model": "$m"""").getOrElse("")
+        val jsonPayload = s"""{"api_key": "$apiKey", "plan_class": "$planClass", "message": "$escapedMessage"$modelField}"""
         
         val request = HttpRequest(
           method = HttpMethods.POST,
@@ -75,7 +81,7 @@ object TraineeActor {
 
       case WrappedHttpResponse(response, replyTo) =>
         import scala.concurrent.duration._
-        context.pipeToSelf(response.entity.toStrict(5.seconds)) {
+        context.pipeToSelf(response.entity.toStrict(60.seconds)) {
           case Success(strictEntity) => WrappedStrictEntity(response.status.intValue, strictEntity.data.utf8String, replyTo)
           case Failure(ex) => WrappedHttpError(ex, replyTo)
         }

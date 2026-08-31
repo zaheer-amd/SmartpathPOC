@@ -1,0 +1,109 @@
+[
+  {
+    "id": "SCENARIO-001",
+    "plan_class": "Vision CSD-N",
+    "member": {
+      "employer": "GRP-748201 - 003 (Apex Dynamics Aerospace - Dallas, TX)",
+      "subscriber_id": "MEM-US-9941820 (SSN: ***-**-6184)",
+      "plan_network": "Class A - CSD N (Non-Network Direct Reimbursement)",
+      "state_tax": "TX (Texas) - Fed Tax ID: 74-2910482",
+      "name": "Vance, Marcus D. (Mr.)",
+      "relation": "00 - Primary Cardholder / Subscriber",
+      "dob_gender": "18-OCT-1985 (Age: 40) / M",
+      "cob": "00 - PRIMARY (Single Commercial Payor)",
+      "status": "ACTIVE - IN BENEFIT",
+      "effective_dates": "01-JAN-2019 / 31-DEC-9999",
+      "division": "DIV-08 (Engineering & Avionics R&D)",
+      "deductible": "$0.00 Met / $0.00 Required"
+    },
+    "provider": {
+      "claim_ref": "CLM-2026-US-48201",
+      "facility": "Lone Star Vision Institute (PRV-US-88214)",
+      "license": "NPI: 1487920194 | Lic: TX-OD-90218 (Dr. Samuel Hayes, OD)",
+      "taxonomy": "152W00000X - Optometrist (Dispensing)",
+      "dos": "14-OCT-2024",
+      "invoice_no": "INV-241014-03",
+      "cpt": "V2020 / CPT-92310 (Prescription Frames & Lenses)",
+      "icd": "H52.223 (Regular astigmatism, bilateral)",
+      "billed": 250.00,
+      "rule": "GLASS: N 100 $200/24 MON",
+      "address": "1200 Medical Parkway, Austin, TX 78759",
+      "payee": "SUBSCRIBER_DIRECT"
+    },
+    "history": [
+      {"Claim ID": "CLM-2024-US-10291", "DOS": "18-APR-2024", "Service Code": "CPT-92014 (Comprehensive Eye Exam)", "Billed": "$120.00", "Eligible": "$100.00", "Paid": "$100.00", "Status": "PAID - CLOSED"},
+      {"Claim ID": "CLM-2022-US-66102", "DOS": "05-JUL-2022", "Service Code": "V2020 (Prescription Glasses)", "Billed": "$240.00", "Eligible": "$200.00", "Paid": "$200.00", "Status": "ARCHIVED (>24m Window)"}
+    ],
+    "invoice_image": "data/invoices/vision_invoice.jpg"
+  },
+  {
+    "id": "SCENARIO-002",
+    "plan_class": "Dental PPO",
+    "member": {
+      "employer": "GRP-811902 - 001 (Springfield Unified School District)",
+      "subscriber_id": "MEM-US-1102938 (SSN: ***-**-9912)",
+      "plan_network": "Dental PPO - Standard Coverage",
+      "state_tax": "IL (Illinois) - Fed Tax ID: 36-192004",
+      "name": "Smith, Jane (Mrs.)",
+      "relation": "00 - Primary Cardholder / Subscriber",
+      "dob_gender": "04-MAY-1979 (Age: 47) / F",
+      "cob": "00 - PRIMARY (Single Commercial Payor)",
+      "status": "ACTIVE - IN BENEFIT",
+      "effective_dates": "01-SEP-2015 / 31-DEC-9999",
+      "division": "DIV-01 (Faculty)",
+      "deductible": "$50.00 Met / $50.00 Required"
+    },
+    "provider": {
+      "claim_ref": "CLM-2023-US-99124",
+      "facility": "BrightSmile Dental Care (PRV-US-10293)",
+      "license": "NPI: 1098273645 | Lic: IL-DDS-1092",
+      "taxonomy": "1223G0001X - General Practice Dentistry",
+      "dos": "24-OCT-2023",
+      "invoice_no": "108492",
+      "cpt": "D0150, D0210, D2330",
+      "icd": "K02.9 (Dental caries, unspecified)",
+      "billed": 315.00,
+      "rule": "DENT: PPO 80% BASIC",
+      "address": "1456 Oakwood Avenue, Suite 102, Springfield, IL 62704",
+      "payee": "PROVIDER_DIRECT"
+    },
+    "history": [
+      {"Claim ID": "CLM-2023-US-44122", "DOS": "10-MAY-2023", "Service Code": "D1110 (Prophylaxis - Adult)", "Billed": "$90.00", "Eligible": "$90.00", "Paid": "$90.00", "Status": "PAID - CLOSED"}
+    ],
+    "invoice_image": "data/invoices/dental_invoice.jpg"
+  },
+  {
+    "id": "SCENARIO-003",
+    "plan_class": "Pharmacy RX",
+    "member": {
+      "employer": "GRP-102938 - 005 (TechFlow Inc - Seattle, WA)",
+      "subscriber_id": "MEM-US-5510293 (SSN: ***-**-1029)",
+      "plan_network": "RX - Generic Preferred Tier 1",
+      "state_tax": "WA (Washington) - Fed Tax ID: 91-0938271",
+      "name": "Doe, John (Mr.)",
+      "relation": "00 - Primary Cardholder / Subscriber",
+      "dob_gender": "11-NOV-1990 (Age: 35) / M",
+      "cob": "00 - PRIMARY (Single Commercial Payor)",
+      "status": "ACTIVE - IN BENEFIT",
+      "effective_dates": "01-JAN-2022 / 31-DEC-9999",
+      "division": "DIV-02 (Engineering)",
+      "deductible": "$0.00 Met / $0.00 Required"
+    },
+    "provider": {
+      "claim_ref": "CLM-2023-US-11928",
+      "facility": "CVS Pharmacy #01234 (PRV-US-99182)",
+      "license": "NPI: 1982736450 | Lic: WA-PH-0012",
+      "taxonomy": "3336C0003X - Community/Retail Pharmacy",
+      "dos": "26-OCT-2023",
+      "invoice_no": "TRAN-87654",
+      "cpt": "NDC: 00591-0302-05 (Amoxicillin 500mg)",
+      "icd": "J01.90 (Acute sinusitis, unspecified)",
+      "billed": 45.00,
+      "rule": "RX: TIER1 GENERIC $15 COPAY",
+      "address": "1450 Main Street, Springfield, IL 62704",
+      "payee": "PROVIDER_DIRECT"
+    },
+    "history": [],
+    "invoice_image": "data/invoices/pharmacy_invoice.jpg"
+  }
+]
