@@ -1,6 +1,7 @@
+import json
 from knowledge.loader import get_policy_by_plan
 
-def get_mentor_response(model, user_question: str, plan_class: str) -> dict:
+def get_mentor_response(model, user_question: str, plan_class: str, scenario: dict) -> dict:
     """
     Provides context-aware help based on the active policy.
     """
@@ -15,6 +16,8 @@ You are the SmartPath Trainee Mentor, a helpful assistant for a claims adjudicat
 
 CURRENT CLAIM SCENARIO:
 - Plan Class: {plan_class}
+- Scenario Details:
+{json.dumps(scenario, indent=2)}
 
 TRAINEE QUESTION:
 {user_question}
@@ -25,6 +28,7 @@ INSTRUCTIONS:
 3. If the trainee asks about a scenario or service not covered by the active policy, politely inform them that you only have access to the rules for the {plan_class} plan.
 4. Be encouraging but professional.
 5. Keep your answer under 3 sentences.
+6. IMPORTANT: Do NOT provide the exact Eligible Amount, Out-of-Pocket Amount, or Decision for the current scenario. Your goal is to guide the trainee to find the answer themselves.
 """
     
     response = model.generate_content(mentor_prompt)

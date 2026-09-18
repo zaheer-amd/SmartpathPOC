@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartPath — Bounding Box Calibrator</title>
+    <meta name="description" content="Visual calibration tool for adjusting bounding box coordinates on simulation frames.">
+    <link rel="stylesheet" href="css/calibrator.css">
+</head>
+<body class="calibrator-body">
+    <header class="cal-header">
+        <h1>SmartPath Bounding Box Calibrator</h1>
+        <div class="cal-header-actions">
+            <a href="index.html" class="cal-btn cal-btn-secondary">Back to Simulation</a>
+            <button class="cal-btn cal-btn-primary" onclick="exportWithTimestamps()">Export Corrected JSON</button>
+        </div>
+    </header>
+
+    <div class="cal-instructions">
+        <strong>Instructions:</strong>
+        Drag each blue rectangle to match the exact position of the target UI element. Use corner handles to resize. When done, click "Export Corrected JSON" and drop the downloaded file into <code>inputs/raw_metadata.json</code>, then re-run the build pipeline.
+    </div>
+
+    <div class="cal-grid" id="cal-grid">
+        <!-- Cards are injected by calibrator.js -->
+    </div>
+
+    <div class="cal-toast" id="cal-toast"></div>
+
+    <script src="js/calibrator.js"></script>
+</body>
+</html>

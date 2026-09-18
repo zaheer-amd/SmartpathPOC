@@ -6,6 +6,7 @@ import akka.actor.typed.scaladsl.Behaviors
 import akka.http.scaladsl.Http
 import akka.http.scaladsl.model._
 import scala.util.{Success, Failure}
+import spray.json.JsValue
 
 object TraineeActor {
   sealed trait Command
@@ -16,6 +17,7 @@ object TraineeActor {
       oop: Double,
       decision: String,
       model: Option[String],
+      scenario: JsValue,
       replyTo: ActorRef[SubmitResponse]
   ) extends Command
 
@@ -24,6 +26,7 @@ object TraineeActor {
       planClass: String,
       message: String,
       model: Option[String],
+      scenario: JsValue,
       replyTo: ActorRef[SubmitResponse]
   ) extends Command
 
@@ -38,11 +41,12 @@ object TraineeActor {
     import system.executionContext
 
     Behaviors.receiveMessage {
-      case SubmitClaim(apiKey, planClass, eligible, oop, decision, modelOpt, replyTo) =>
+      case SubmitClaim(apiKey, planClass, eligible, oop, decision, modelOpt, scenario, replyTo) =>
         context.log.info(s"Actor received claim for plan $planClass: $eligible, $oop, $decision, model: $modelOpt")
 
         val modelField = modelOpt.map(m => s""", "model": "$m"""").getOrElse("")
-        val jsonPayload = s"""{"api_key": "$apiKey", "plan_class": "$planClass", "eligible_amount": $eligible, "oop_amount": $oop, "decision": "$decision"$modelField}"""
+        val scenarioStr = scenario.toString
+        val jsonPayload = s"""{"api_key": "$apiKey", "plan_class": "$planClass", "eligible_amount": $eligible, "oop_amount": $oop, "decision": "$decision"$modelField, "scenario": $scenarioStr}"""
         
         val request = HttpRequest(
           method = HttpMethods.POST,
@@ -58,12 +62,13 @@ object TraineeActor {
         }
         Behaviors.same
 
-      case SubmitChat(apiKey, planClass, message, modelOpt, replyTo) =>
+      case SubmitChat(apiKey, planClass, message, modelOpt, scenario, replyTo) =>
         context.log.info(s"Actor received chat message for $planClass: $message, model: $modelOpt")
         
         val escapedMessage = message.replace("\\", "\\\\").replace("\"", "\\\"").replace("\n", "\\n").replace("\r", "")
         val modelField = modelOpt.map(m => s""", "model": "$m"""").getOrElse("")
-        val jsonPayload = s"""{"api_key": "$apiKey", "plan_class": "$planClass", "message": "$escapedMessage"$modelField}"""
+        val scenarioStr = scenario.toString
+        val jsonPayload = s"""{"api_key": "$apiKey", "plan_class": "$planClass", "message": "$escapedMessage"$modelField, "scenario": $scenarioStr}"""
         
         val request = HttpRequest(
           method = HttpMethods.POST,
