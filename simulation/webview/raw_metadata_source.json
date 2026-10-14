@@ -1,0 +1,156 @@
+[
+    {
+        "state_id": "STATE_01",
+        "timestamp_in_video": "00:55",
+        "action_type": "click",
+        "ui_element_name": "Claim Line & Provider Details Accordion",
+        "expected_input_value": null,
+        "bounding_box_1000": [
+            113,
+            50,
+            164,
+            579
+        ],
+        "instructional_hint": "Expand the provider details section to review the billing code and the total receipt amount."
+    },
+    {
+        "state_id": "STATE_02",
+        "timestamp_in_video": "00:41",
+        "action_type": "click",
+        "ui_element_name": "Claim Line & Provider Details Accordion",
+        "expected_input_value": null,
+        "bounding_box_1000": [
+            113,
+            50,
+            164,
+            579
+        ],
+        "instructional_hint": "Review the details, then click the accordion again to close it and continue."
+    },
+    {
+        "state_id": "STATE_03",
+        "timestamp_in_video": "00:55",
+        "action_type": "click",
+        "ui_element_name": "View Scanned Document (Invoice/Receipt) Accordion",
+        "expected_input_value": null,
+        "bounding_box_1000": [
+            279,
+            55,
+            330,
+            583
+        ],
+        "instructional_hint": "Click to open the scanned invoice and verify the items being claimed match the billed total."
+    },
+    {
+        "state_id": "STATE_04",
+        "timestamp_in_video": "01:16",
+        "action_type": "input",
+        "ui_element_name": "Live Assistant Chat Input",
+        "expected_input_value": "help",
+        "bounding_box_1000": [
+            493,
+            589,
+            573,
+            940
+        ],
+        "instructional_hint": "Type 'help' in the Mentor Agent chat to get guidance on the policy limits and rules."
+    },
+    {
+        "state_id": "STATE_05",
+        "timestamp_in_video": "01:47",
+        "action_type": "click",
+        "ui_element_name": "System Rule Checks & Member Claim History Accordion",
+        "expected_input_value": null,
+        "bounding_box_1000": [
+            317,
+            54,
+            368,
+            582
+        ],
+        "instructional_hint": "Expand the claim history section to ensure the date of service falls outside the 24-month frequency limit."
+    },
+    {
+        "state_id": "STATE_06",
+        "timestamp_in_video": "02:27",
+        "action_type": "click",
+        "ui_element_name": "Submit Assessment Button",
+        "expected_input_value": null,
+        "bounding_box_1000": [
+            780,
+            52,
+            831,
+            143
+        ],
+        "instructional_hint": "Submit the initial adjudication assessment for the orchestration check."
+    },
+    {
+        "state_id": "STATE_07",
+        "timestamp_in_video": "03:04",
+        "action_type": "click",
+        "ui_element_name": "View Active Policy Rules (Vision CSD-N) Accordion",
+        "expected_input_value": null,
+        "bounding_box_1000": [
+            210,
+            590,
+            260,
+            941
+        ],
+        "instructional_hint": "Open the active policy rules to investigate why the initial calculation failed."
+    },
+    {
+        "state_id": "STATE_08",
+        "timestamp_in_video": "03:09",
+        "action_type": "scroll",
+        "ui_element_name": "Policy Guidelines Content Area",
+        "expected_input_value": null,
+        "bounding_box_1000": [
+            268,
+            594,
+            878,
+            945
+        ],
+        "instructional_hint": "Scroll down to rule section 3 to review how maximum benefit limits cap eligible expenses."
+    },
+    {
+        "state_id": "STATE_09",
+        "timestamp_in_video": "03:36",
+        "action_type": "input",
+        "ui_element_name": "Eligible Amount Text Box",
+        "expected_input_value": "200.00",
+        "bounding_box_1000": [
+            139,
+            54,
+            195,
+            313
+        ],
+        "instructional_hint": "Update the eligible amount to correctly cap at the $200.00 maximum benefit limit."
+    },
+    {
+        "state_id": "STATE_10",
+        "timestamp_in_video": "03:39",
+        "action_type": "input",
+        "ui_element_name": "Enter Out-of-Pocket Amount Text Box",
+        "expected_input_value": "50.00",
+        "bounding_box_1000": [
+            137,
+            320,
+            193,
+            579
+        ],
+        "instructional_hint": "Calculate and enter the remaining $50.00 as the member's out-of-pocket responsibility."
+    },
+    {
+        "state_id": "STATE_11",
+        "timestamp_in_video": "03:46",
+        "action_type": "click",
+        "ui_element_name": "Submit Assessment Button",
+        "expected_input_value": null,
+        "bounding_box_1000": [
+            541,
+            53,
+            593,
+            145
+        ],
+        "instructional_hint": "Submit the corrected assessment form."
+    }
+]

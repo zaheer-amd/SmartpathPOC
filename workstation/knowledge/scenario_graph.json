@@ -1,0 +1,176 @@
+{
+  "version": "1.0.0",
+  "generated_at": "2026-09-18T09:29:08.644565+00:00",
+  "total_states": 11,
+  "initial_state_id": "STATE_01",
+  "states": [
+    {
+      "state_id": "STATE_01",
+      "sequence_index": 0,
+      "frame_image": "assets/STATE_01.png",
+      "action_type": "click",
+      "ui_element_name": "Claim Line & Provider Details Accordion",
+      "instructional_hint": "Expand the provider details section to review the billing code and the total receipt amount.",
+      "css_coordinates": {
+        "top": 11.3,
+        "left": 5.0,
+        "width": 52.9,
+        "height": 5.1
+      },
+      "next_state_id": "STATE_02"
+    },
+    {
+      "state_id": "STATE_02",
+      "sequence_index": 1,
+      "frame_image": "assets/STATE_02.png",
+      "action_type": "click",
+      "ui_element_name": "Claim Line & Provider Details Accordion",
+      "instructional_hint": "Review the details, then click the accordion again to close it and continue.",
+      "css_coordinates": {
+        "top": 11.3,
+        "left": 5.0,
+        "width": 52.9,
+        "height": 5.1
+      },
+      "next_state_id": "STATE_03"
+    },
+    {
+      "state_id": "STATE_03",
+      "sequence_index": 2,
+      "frame_image": "assets/STATE_03.png",
+      "action_type": "click",
+      "ui_element_name": "View Scanned Document (Invoice/Receipt) Accordion",
+      "instructional_hint": "Click to open the scanned invoice and verify the items being claimed match the billed total.",
+      "css_coordinates": {
+        "top": 27.9,
+        "left": 5.5,
+        "width": 52.8,
+        "height": 5.1
+      },
+      "next_state_id": "STATE_04"
+    },
+    {
+      "state_id": "STATE_04",
+      "sequence_index": 3,
+      "frame_image": "assets/STATE_04.png",
+      "action_type": "input",
+      "ui_element_name": "Live Assistant Chat Input",
+      "instructional_hint": "Type 'help' in the Mentor Agent chat to get guidance on the policy limits and rules.",
+      "css_coordinates": {
+        "top": 49.3,
+        "left": 58.9,
+        "width": 35.1,
+        "height": 8.0
+      },
+      "next_state_id": "STATE_05",
+      "expected_input_value": "help"
+    },
+    {
+      "state_id": "STATE_05",
+      "sequence_index": 4,
+      "frame_image": "assets/STATE_05.png",
+      "action_type": "click",
+      "ui_element_name": "System Rule Checks & Member Claim History Accordion",
+      "instructional_hint": "Expand the claim history section to ensure the date of service falls outside the 24-month frequency limit.",
+      "css_coordinates": {
+        "top": 31.7,
+        "left": 5.4,
+        "width": 52.8,
+        "height": 5.1
+      },
+      "next_state_id": "STATE_06"
+    },
+    {
+      "state_id": "STATE_06",
+      "sequence_index": 5,
+      "frame_image": "assets/STATE_06.png",
+      "action_type": "click",
+      "ui_element_name": "Submit Assessment Button",
+      "instructional_hint": "Submit the initial adjudication assessment for the orchestration check.",
+      "css_coordinates": {
+        "top": 78.0,
+        "left": 5.2,
+        "width": 9.1,
+        "height": 5.1
+      },
+      "next_state_id": "STATE_07"
+    },
+    {
+      "state_id": "STATE_07",
+      "sequence_index": 6,
+      "frame_image": "assets/STATE_07.png",
+      "action_type": "click",
+      "ui_element_name": "View Active Policy Rules (Vision CSD-N) Accordion",
+      "instructional_hint": "Open the active policy rules to investigate why the initial calculation failed.",
+      "css_coordinates": {
+        "top": 21.0,
+        "left": 59.0,
+        "width": 35.1,
+        "height": 5.0
+      },
+      "next_state_id": "STATE_08"
+    },
+    {
+      "state_id": "STATE_08",
+      "sequence_index": 7,
+      "frame_image": "assets/STATE_08.png",
+      "action_type": "scroll",
+      "ui_element_name": "Policy Guidelines Content Area",
+      "instructional_hint": "Scroll down to rule section 3 to review how maximum benefit limits cap eligible expenses.",
+      "css_coordinates": {
+        "top": 26.8,
+        "left": 59.4,
+        "width": 35.1,
+        "height": 61.0
+      },
+      "next_state_id": "STATE_09"
+    },
+    {
+      "state_id": "STATE_09",
+      "sequence_index": 8,
+      "frame_image": "assets/STATE_09.png",
+      "action_type": "input",
+      "ui_element_name": "Eligible Amount Text Box",
+      "instructional_hint": "Update the eligible amount to correctly cap at the $200.00 maximum benefit limit.",
+      "css_coordinates": {
+        "top": 13.9,
+        "left": 5.4,
+        "width": 25.9,
+        "height": 5.6
+      },
+      "next_state_id": "STATE_10",
+      "expected_input_value": "200.00"
+    },
+    {
+      "state_id": "STATE_10",
+      "sequence_index": 9,
+      "frame_image": "assets/STATE_10.png",
+      "action_type": "input",
+      "ui_element_name": "Enter Out-of-Pocket Amount Text Box",
+      "instructional_hint": "Calculate and enter the remaining $50.00 as the member's out-of-pocket responsibility.",
+      "css_coordinates": {
+        "top": 13.7,
+        "left": 32.0,
+        "width": 25.9,
+        "height": 5.6
+      },
+      "next_state_id": "STATE_11",
+      "expected_input_value": "50.00"
+    },
+    {
+      "state_id": "STATE_11",
+      "sequence_index": 10,
+      "frame_image": "assets/STATE_11.png",
+      "action_type": "click",
+      "ui_element_name": "Submit Assessment Button",
+      "instructional_hint": "Submit the corrected assessment form.",
+      "css_coordinates": {
+        "top": 54.1,
+        "left": 5.3,
+        "width": 9.2,
+        "height": 5.2
+      },
+      "next_state_id": null
+    }
+  ]
+}

@@ -1,56 +1,152 @@
-# SmartPath POC - US Claims Adjudication Workstation
+# SmartPath — Enterprise Claims Training & Simulation Platform
 
-Welcome to the **SmartPath POC**, a proof-of-concept application that demonstrates an AI-augmented environment for manual health insurance claims adjudication. The system acts as a legacy workstation simulator where claims adjusters (trainees) evaluate claims while being evaluated and assisted by intelligent AI agents.
+SmartPath decouples health insurance claims adjudication training into two distinct, high-performance systems:
+1. **Build-Time Simulation Authoring Engine** (`simulation/`): Converts expert screen recordings into interactive browser simulations using **RapidOCR Ground-Truth Anchors** and **Gemini Vision spatial reasoning**.
+2. **Runtime Training Workstation** (`workstation/`): An AI-augmented manual claims adjudication simulator where trainees practice adjudicating claims while being evaluated by **Judge Agent** and mentored by **Mentor Agent**, orchestrated through an **Akka Typed Actor Model**.
 
-## 🎯 Purpose and Goal
-The primary goal of this project is to explore how Large Language Models (LLMs), specifically **Gemini 3.6 Flash**, can be seamlessly integrated into a complex enterprise workflow to provide real-time evaluation and mentorship. 
+---
 
-By simulating a legacy UI, the application allows users to adjudicate a mock claim against a specific policy (CSD-N). Behind the scenes, the system uses a robust message-driven architecture to route requests to AI agents that grade the trainee's work (Judge Agent) and provide interactive, policy-grounded hints (Mentor Agent).
+## 🏗️ System Architecture
 
-## 🏗️ Architecture
-The architecture is designed to decouple the frontend from the AI logic, using an actor model for orchestration:
+```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                       OBJECTIVE A: BUILD-TIME PIPELINE                      │
+│                                                                             │
+│  MP4 Video ──▶ SSIM Keyframes ──▶ Whisper Audio ──▶ RapidOCR Anchors       │
+│                                                            │                │
+│  Interactive Browser Sim ◀── scenario_graph.json ◀── Gemini Spatial Reasoning
+│  (simulation/webview)                               (s5_metadata_generator)│
+└─────────────────────────────────────────────────────────────────────────────┘
 
-1. **Frontend (Streamlit)**: 
-   - `app.py` serves as the user interface, mimicking a legacy GLH Enterprise US Commercial Claims Engine. 
-   - It captures the trainee's input (Eligible Amount, OOP Amount, Decision) and chat queries.
-2. **Orchestration Layer (Scala / Akka HTTP)**: 
-   - Found in the `akka-orchestrator/` directory, this acts as the middleman.
-   - `UserRoutes.scala` receives incoming POST requests (`/submit` and `/chat`) from the frontend.
-   - `TraineeActor.scala` encapsulates the business logic, receiving commands via the Akka Ask pattern, translating them into HTTP calls to the backend, and piping the responses back.
-3. **AI Backend (Python / FastAPI)**: 
-   - `ai_service.py` runs on port 8000 and exposes endpoints that invoke the Google Gemini models.
-   - **Judge Agent**: Evaluates the trainee's final submitted numbers against the ground-truth policy.
-   - **Mentor Agent**: Loads the Markdown-based knowledge layer (`CSD_policy.md`) and grounds its responses in the actual policy to provide accurate hints to the trainee.
-
-## 🚀 Steps Taken & Development Journey
-During the development of this POC, several key integrations and refactors were made to ensure a resilient pipeline:
-1. **Frontend to Orchestrator Hookup**: Replaced direct Python function calls in Streamlit with network calls (`requests.post`) to the Akka server (`localhost:8080`).
-2. **Akka Orchestration Implementation**: 
-   - Initially bypassed the `TraineeActor` as a direct HTTP proxy, but subsequently refactored it to the pure "Actor Way."
-   - `TraineeActor` now handles `SubmitClaim` and `SubmitChat` messages, managing the asynchronous HTTP lifecycle with FastAPI.
-3. **Dependency Stabilization**: Resolved SBT resolution errors by standardizing the build configuration to stable Apache 2.0 open-source releases of Akka (`2.6.20`), Akka HTTP (`10.2.10`), and Scala (`2.13.14`).
-4. **Knowledge Layer Reconnection**: Fixed an issue where the Mentor Agent was hallucinating by ensuring the FastAPI `/chat` endpoint explicitly loaded the `CSD_policy.md` context into the LLM prompt.
-
-## 💡 Key Observations
-- **Asynchronous Timeouts**: LLM generation can sometimes exceed standard microservice timeouts (especially on cold starts). We encountered 500 Internal Server Errors due to Akka's `AskTimeoutException`. Increasing the `ask-timeout` in `application.conf` from `5s` to `30s` completely stabilized the pipeline.
-- **Model Selection**: We standardized the entire application to use the `gemini-3.6-flash` model for optimal speed and reasoning capability.
-
-## 💻 How to Run Locally
-
-To run the full stack, you will need three terminal windows:
-
-**1. Start the AI Backend (FastAPI)**
-```bash
-uvicorn ai_service:app --port 8000 --reload
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                      OBJECTIVE B: RUNTIME WORKSTATION                       │
+│                                                                             │
+│  Trainee UI (Port 8501)                                                     │
+│  Streamlit Modular Client                                                   │
+│       │                                                                     │
+│       │ HTTP POST /submit, /chat                                            │
+│       ▼                                                                     │
+│  Akka Orchestrator (Port 8080)                                              │
+│  Scala 2.13 • Akka Typed • TraineeActor • SessionStore (SQLite Ledger)     │
+│       │                                                                     │
+│       │ HTTP POST /evaluate, /chat                                          │
+│       ▼                                                                     │
+│  AI Gateway (Port 8000)                                                     │
+│  FastAPI • Pydantic Contracts • Lifespan Manager                            │
+│       ├── RAG Knowledge Layer: Mock Azure AI Search (CSD, Dental, Rx)       │
+│       ├── Judge Agent: Submission evaluation & token savings scoring        │
+│       └── Mentor Agent: Context-aware pedagogical guidance                  │
+└─────────────────────────────────────────────────────────────────────────────┘
 ```
 
-**2. Start the Orchestrator (Akka/Scala)**
-```bash
-cd akka-orchestrator
+---
+
+## 📂 Repository Layout
+
+```
+c:\SmartPath\
+│
+├── workstation/                        ← Runtime Training Workstation
+│   ├── app.py                          ← Lean Streamlit entry point (~100 lines)
+│   ├── config.py                       ← Centralized URLs, ports, timeouts, models
+│   ├── requirements.txt                ← Streamlit, FastAPI, Uvicorn, Pydantic, etc.
+│   ├── ui/                             ← Modular UI components
+│   │   ├── sidebar.py                  ← Session config, queue navigation
+│   │   ├── claim_form.py               ← Member eligibility, invoice & claim viewer
+│   │   ├── trainee_inputs.py           ← Calculation fields & assessment submission
+│   │   ├── mentor_chat.py              ← AI mentor dialogue & policy viewer
+│   │   └── telemetry_dashboard.py      ← 7-stage AI transparency & audit walkthrough
+│   ├── gateway/                        ← FastAPI AI Gateway (Port 8000)
+│   │   ├── main.py                     ← Lifespan manager, CORS, router mounts
+│   │   ├── models.py                   ← Pydantic request/response schemas
+│   │   └── routes/                     ← /evaluate, /chat, /search, /policy routes
+│   ├── agents/                         ← AI Agent implementations
+│   │   ├── base_agent.py               ← Shared telemetry & token calculation
+│   │   ├── judge_agent.py              ← Inherits BaseAgent (Assessment evaluator)
+│   │   └── mentor_agent.py             ← Inherits BaseAgent (Trainee mentor)
+│   ├── knowledge/                      ← RAG Knowledge Layer
+│   │   ├── loader.py                   ← Policy loader & mock Azure search fallback
+│   │   ├── policy_index.py             ← In-memory section parser & semantic search
+│   │   └── policies/                   ← Source policy markdown documents
+│   └── data/                           ← Runtime claim scenarios & invoice images
+│
+├── simulation/                         ← Build-Time Simulation Authoring Engine
+│   ├── build.py                        ← Unified CLI pipeline orchestrator
+│   ├── requirements.txt                ← OpenCV, scikit-image, Whisper, RapidOCR
+│   ├── pipeline/                       ← Numbered pipeline stages
+│   │   ├── s1_frame_extractor.py       ← Video frame extraction (OpenCV)
+│   │   ├── s2_keyframe_detector.py     ← SSIM keyframe detection
+│   │   ├── s3_audio_transcriber.py     ← Local Whisper speech-to-text
+│   │   ├── s4_ocr_engine.py            ← RapidOCR text & coordinate anchor extraction
+│   │   ├── s5_metadata_generator.py    ← Gemini Vision with OCR anchor prompting
+│   │   ├── s6_coordinate_transformer.py← 0-1000 to CSS percentage coordinates
+│   │   └── s7_graph_compiler.py        ← scenario_graph.json assembler
+│   ├── tools/                          ← Authoring Tools
+│   │   └── calibrator/                 ← HITL QA Studio (calibrate.html, calibrator.js)
+│   ├── inputs/                         ← Source prompt templates & raw metadata
+│   ├── outputs/                        ← Intermediate frames, keyframes, transcripts
+│   └── webview/                        ← Browser runtime simulation player
+│
+├── orchestrator/                       ← Akka Typed Orchestrator (Scala, Port 8080)
+│   ├── build.sbt                       ← SBT build configuration
+│   ├── src/main/scala/com/example/
+│   │   ├── QuickstartApp.scala         ← HTTP server entry point
+│   │   ├── UserRoutes.scala            ← /submit, /chat, /session routes
+│   │   ├── TraineeActor.scala          ← Actor with typed Spray-JSON AST
+│   │   ├── SessionStore.scala          ← SQLite persistence
+│   │   └── JsonFormats.scala           ← Spray-JSON formats
+│   └── src/main/resources/application.conf
+│
+└── docs/                               ← Architecture and mapping documentation
+```
+
+---
+
+## 🔍 Key Architectural Enhancements
+
+### 1. OCR-First Anchor Strategy (Fixing the "Label vs. Input Box" Trap)
+- **Problem**: When text labels (e.g., `"Enter Eligible Amount ($):"`) sit next to empty input fields, running OCR after Gemini and overwriting bounding boxes causes simulations to target the text label rather than the input rectangle.
+- **Solution**: Run **Stage 4 (`s4_ocr_engine.py`)** first. RapidOCR extracts all on-screen text with exact pixel coordinates. This anchor table is passed into **Stage 5 (`s5_metadata_generator.py`)** prompt. Gemini snaps directly to button text, but for input boxes, it calculates the bounding rectangle relative to the adjacent label anchor.
+- **Zero Fuzzy Matching**: Gemini semantically matches its intent to the anchor ID, eliminating post-hoc string fuzzy matching (`thefuzz`/`rapidfuzz`).
+
+### 2. Lightweight RapidOCR
+- Replaced heavyweight EasyOCR/PyTorch (~2.5GB) with `rapidocr-onnxruntime` (<50MB, CPU ONNX runtime). Runs in ~50-100ms per frame.
+
+### 3. Human-in-the-Loop (HITL) Authoring Studio
+- Deleted hardcoded coordinate hacking (`patch_json.py`).
+- Demoted `calibrate.html` to `simulation/tools/calibrator/` as an optional HITL QA verification studio for icon-only edge cases.
+
+### 4. Strict Workstation Decoupling
+- `workstation/app.py` communicates strictly over HTTP with Port 8080 (Akka) and Port 8000 (Gateway) via `workstation/config.py`.
+- No direct imports between UI and backend agents/knowledge layers.
+
+---
+
+## 💻 Quickstart Guide
+
+### 1. Start the AI Gateway (FastAPI, Port 8000)
+```powershell
+uvicorn workstation.gateway.main:app --port 8000 --reload
+```
+
+### 2. Start the Orchestrator (Akka/Scala, Port 8080)
+```powershell
+cd orchestrator
 sbt run
 ```
 
-**3. Start the UI (Streamlit)**
-```bash
-streamlit run app.py
+### 3. Start the Workstation UI (Streamlit, Port 8501)
+```powershell
+streamlit run workstation/app.py
 ```
+
+### 4. Run the Simulation Authoring Pipeline (CLI)
+```powershell
+# Automated pipeline: SSIM -> Whisper -> RapidOCR -> Gemini Vision -> Graph
+python simulation/build.py --auto --gemini-key YOUR_API_KEY
+
+# Serve the compiled interactive simulation player:
+cd simulation/webview
+python -m http.server 9000
+```
+Open `http://localhost:9000` in your browser to experience the compiled interactive simulation.

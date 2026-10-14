@@ -1,12 +1,48 @@
+# Python
 .venv/
+venv/
+env/
 __pycache__/
-*.pyc
+*.py[cod]
+*$py.class
+*.egg-info/
+.pytest_cache/
+
+# Binaries & Media Assets
+*.exe
+*.dll
+*.so
+*.dylib
+*.mp4
+*.mov
+*.avi
+*.mkv
+video_asset/
+
+# Databases
+*.db
+*.sqlite
+*.sqlite3
+
+# Akka / Scala / SBT
+target/
+project/target/
+project/project/
 .metals/
 .bsp/
+orchestrator/target/
+orchestrator/project/target/
 akka-orchestrator/target/
 akka-orchestrator/project/target/
-.vscode/
 
-# Simulation Module - Generated artifacts
-simulation_module/outputs/frames/
-simulation_module/inputs/demo_recording.mp4
+# Simulation Pipeline Outputs
+simulation/outputs/
+simulation_module/outputs/
+simulation/inputs/*.mp4
+simulation_module/inputs/*.mp4
+
+# IDE & OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

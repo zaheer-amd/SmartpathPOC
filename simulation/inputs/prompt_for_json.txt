@@ -1,0 +1,33 @@
+Analyze this screen recording keyframe of a user navigating a web application.
+The user is performing a step-by-step task (e.g. adjudication, form filling).
+
+I need to convert this into an interactive HTML simulation.
+For this keyframe, identify the target UI element the user interacts with (e.g., clicking a text box, typing a value, clicking a button, selecting a dropdown).
+
+SPATIAL REASONING & OCR ANCHOR GUIDELINES:
+You are provided with a GROUND-TRUTH ON-SCREEN TEXT ANCHORS table extracted via machine OCR with exact bounding boxes on a 0-1000 scale [ymin, xmin, ymax, xmax].
+Use these ground-truth anchors to calculate pixel-precise bounding boxes:
+
+1. BUTTONS, TABS & TEXT LINKS:
+   If the target interactive element is a button, tab, link, or clickable header (e.g., "Submit Assessment", "Next Claim in Queue", "Deploy", expander titles):
+   SNAP DIRECTLY to the exact OCR coordinates of that text anchor!
+
+2. INPUT BOXES & DROPDOWNS ("LABEL VS INPUT BOX" RULE):
+   OCR detects the text label (e.g., "Enter Eligible Amount ($):", "Adjudication Decision:").
+   The actual interactive <input> or <select> box sits ADJACENT to that label (typically immediately below or to the right of the text label).
+   DO NOT make the bounding box point to the text label itself!
+   Instead, use the text label's OCR coordinates as a precise spatial anchor to determine the exact bounding box of the adjacent interactive rectangular input/dropdown box.
+
+Output strictly valid JSON as an array containing a single object:
+[
+  {
+    "state_id": "STATE_01",
+    "timestamp_in_video": "00:05",
+    "action_type": "input", // or "click", "select", "scroll"
+    "ui_element_name": "Eligible Amount Text Box",
+    "matched_anchor_id": 0, // integer ID of the reference OCR anchor from the table, or null
+    "expected_input_value": "200.00", // or null for click actions
+    "bounding_box_1000": [ymin, xmin, ymax, xmax], // on 0-1000 scale [top, left, bottom, right]
+    "instructional_hint": "Clear, professional 1-sentence hint guiding a trainee to perform this action."
+  }
+]
