@@ -1,0 +1,254 @@
+/* ── Calibrator Page Styles ─────────────────────────────────── */
+
+body.calibrator-body {
+    font-family: 'Inter', 'Segoe UI', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #0f172a;
+    color: #f8fafc;
+}
+
+.cal-header {
+    background-color: #020617;
+    padding: 16px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #1e293b;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.cal-header h1 {
+    font-size: 1.3rem;
+    margin: 0;
+    color: #f8fafc;
+}
+
+.cal-header-actions {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.cal-btn {
+    padding: 8px 20px;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.cal-btn-primary {
+    background-color: #3b82f6;
+    color: white;
+}
+
+.cal-btn-primary:hover {
+    background-color: #2563eb;
+    box-shadow: 0 0 12px rgba(59, 130, 246, 0.4);
+}
+
+.cal-btn-secondary {
+    background-color: #1e293b;
+    color: #94a3b8;
+    border: 1px solid #334155;
+}
+
+.cal-btn-secondary:hover {
+    background-color: #334155;
+    color: #f8fafc;
+}
+
+/* Instructions Banner */
+.cal-instructions {
+    background-color: #1e293b;
+    border-bottom: 1px solid #334155;
+    padding: 12px 24px;
+    font-size: 0.85rem;
+    color: #94a3b8;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.cal-instructions strong {
+    color: #f8fafc;
+}
+
+/* State Cards */
+.cal-grid {
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+.cal-card {
+    background-color: #1e293b;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid #334155;
+    transition: border-color 0.2s;
+}
+
+.cal-card:hover {
+    border-color: #475569;
+}
+
+.cal-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 20px;
+    background-color: #0f172a;
+    border-bottom: 1px solid #334155;
+}
+
+.cal-card-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.cal-state-badge {
+    background-color: #3b82f6;
+    color: white;
+    padding: 3px 10px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+}
+
+.cal-element-name {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #e2e8f0;
+}
+
+.cal-action-badge {
+    font-size: 0.75rem;
+    padding: 3px 10px;
+    border-radius: 4px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.cal-action-badge.click {
+    background-color: rgba(16, 185, 129, 0.15);
+    color: #34d399;
+    border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.cal-action-badge.input {
+    background-color: rgba(245, 158, 11, 0.15);
+    color: #fbbf24;
+    border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+/* Coordinate readout */
+.cal-coords {
+    font-size: 0.8rem;
+    color: #94a3b8;
+    font-family: 'Consolas', 'Monaco', monospace;
+    padding: 0 20px 12px;
+    display: flex;
+    gap: 16px;
+    align-items: center;
+}
+
+.cal-coords span {
+    background-color: #0f172a;
+    padding: 4px 10px;
+    border-radius: 4px;
+    border: 1px solid #334155;
+}
+
+.cal-coords .label {
+    background: none;
+    border: none;
+    padding: 0;
+    color: #64748b;
+    font-weight: 600;
+}
+
+/* Image Container */
+.cal-image-wrapper {
+    position: relative;
+    display: block;
+    cursor: crosshair;
+    overflow: hidden;
+}
+
+.cal-image-wrapper img {
+    display: block;
+    width: 100%;
+    height: auto;
+    user-select: none;
+    -webkit-user-drag: none;
+    pointer-events: none;
+}
+
+/* Draggable Overlay */
+.cal-overlay {
+    position: absolute;
+    border: 2px solid #3b82f6;
+    background: rgba(59, 130, 246, 0.12);
+    cursor: move;
+    z-index: 10;
+    box-sizing: border-box;
+    transition: box-shadow 0.15s;
+}
+
+.cal-overlay:hover {
+    box-shadow: 0 0 16px rgba(59, 130, 246, 0.4);
+}
+
+.cal-overlay.dragging {
+    border-color: #60a5fa;
+    background: rgba(59, 130, 246, 0.2);
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
+}
+
+/* Resize handles (corners) */
+.cal-handle {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    background-color: #3b82f6;
+    border: 2px solid #1e293b;
+    border-radius: 2px;
+    z-index: 11;
+}
+
+.cal-handle-nw { top: -6px; left: -6px; cursor: nw-resize; }
+.cal-handle-ne { top: -6px; right: -6px; cursor: ne-resize; }
+.cal-handle-sw { bottom: -6px; left: -6px; cursor: sw-resize; }
+.cal-handle-se { bottom: -6px; right: -6px; cursor: se-resize; }
+
+/* Toast notification */
+.cal-toast {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background-color: #166534;
+    color: #dcfce7;
+    padding: 14px 24px;
+    border-radius: 8px;
+    font-weight: 600;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    z-index: 1000;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.3s, transform 0.3s;
+    pointer-events: none;
+}
+
+.cal-toast.visible {
+    opacity: 1;
+    transform: translateY(0);
+}

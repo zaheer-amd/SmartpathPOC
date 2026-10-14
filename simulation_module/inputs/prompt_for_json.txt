@@ -1,0 +1,22 @@
+Analyze this screen recording of a user navigating a web application. The user is performing a step-by-step task. 
+
+I need to convert this video into an interactive HTML simulation. 
+Break the video down into discrete states based on the user's actions 
+(e.g., clicking a text box, typing a value, clicking a button, scrolling).
+
+For each critical action, output a JSON object in the following format. 
+Use the model's 2D spatial understanding to estimate the bounding box of the UI element being interacted with. 
+The bounding box must be in the format [ymin, xmin, ymax, xmax] scaled from 0 to 1000.
+
+Output strictly valid JSON as an array of these objects:
+[
+  {
+    "state_id": "STATE_01",
+    "timestamp_in_video": "00:05",
+    "action_type": "input" (or "click", "scroll"),
+    "ui_element_name": "Eligible Amount Text Box",
+    "expected_input_value": "200.00",
+    "bounding_box_1000": [ymin, xmin, ymax, xmax],
+    "instructional_hint": "Write a 1-sentence hint guiding a trainee to perform this action."
+  }
+]

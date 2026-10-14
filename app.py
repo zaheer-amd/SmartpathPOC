@@ -178,7 +178,8 @@ with tab_workstation:
                             "eligible_amount": eligible_amount,
                             "oop_amount": oop_amount,
                             "decision": decision,
-                            "model": selected_model
+                            "model": selected_model,
+                            "scenario": current_scenario
                         }
                         response = requests.post("http://localhost:8080/submit", json=payload)
                     
@@ -224,7 +225,8 @@ with tab_workstation:
                             "api_key": api_key,
                             "plan_class": plan_class,
                             "message": user_question,
-                            "model": selected_model
+                            "model": selected_model,
+                            "scenario": current_scenario
                         }
                         response = requests.post("http://localhost:8080/chat", json=payload)
                     
@@ -252,3 +254,4 @@ with tab_telemetry:
         for log in reversed(st.session_state.telemetry_logs):
             with st.expander(f"Log: {log['agent']} ({log.get('action', 'Interaction')})", expanded=True):
                 st.json(log['telemetry'])
+                

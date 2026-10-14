@@ -1,0 +1,176 @@
+{
+  "version": "1.0.0",
+  "generated_at": "2026-09-17T07:51:58.803593+00:00",
+  "total_states": 11,
+  "initial_state_id": "STATE_01",
+  "states": [
+    {
+      "state_id": "STATE_01",
+      "sequence_index": 0,
+      "frame_image": "assets/STATE_01.png",
+      "action_type": "input",
+      "ui_element_name": "Live Assistant Chat Input",
+      "instructional_hint": "Type 'help' in the chat box to request guidance on policy rules.",
+      "css_coordinates": {
+        "top": 51.0,
+        "left": 60.6,
+        "width": 30.9,
+        "height": 5.4
+      },
+      "next_state_id": "STATE_02",
+      "expected_input_value": "help"
+    },
+    {
+      "state_id": "STATE_02",
+      "sequence_index": 1,
+      "frame_image": "assets/STATE_02.png",
+      "action_type": "click",
+      "ui_element_name": "Live Assistant Send Button",
+      "instructional_hint": "Click the send arrow to submit your message to the Live Assistant.",
+      "css_coordinates": {
+        "top": 50.7,
+        "left": 91.2,
+        "width": 3.4,
+        "height": 6.1
+      },
+      "next_state_id": "STATE_03"
+    },
+    {
+      "state_id": "STATE_03",
+      "sequence_index": 2,
+      "frame_image": "assets/STATE_03.png",
+      "action_type": "click",
+      "ui_element_name": "View Scanned Document Accordion Toggle",
+      "instructional_hint": "Click here to expand and view the scanned invoice.",
+      "css_coordinates": {
+        "top": 42.9,
+        "left": 4.6,
+        "width": 33.0,
+        "height": 4.0
+      },
+      "next_state_id": "STATE_04"
+    },
+    {
+      "state_id": "STATE_04",
+      "sequence_index": 3,
+      "frame_image": "assets/STATE_04.png",
+      "action_type": "click",
+      "ui_element_name": "System Rule Checks Accordion Toggle",
+      "instructional_hint": "Click here to expand the System Rule Checks and Member Claim History section.",
+      "css_coordinates": {
+        "top": 27.8,
+        "left": 4.6,
+        "width": 33.0,
+        "height": 4.0
+      },
+      "next_state_id": "STATE_05"
+    },
+    {
+      "state_id": "STATE_05",
+      "sequence_index": 4,
+      "frame_image": "assets/STATE_05.png",
+      "action_type": "input",
+      "ui_element_name": "Eligible Amount Input Box",
+      "instructional_hint": "Enter '200.00' into the Eligible Amount field.",
+      "css_coordinates": {
+        "top": 61.6,
+        "left": 4.7,
+        "width": 23.5,
+        "height": 4.5
+      },
+      "next_state_id": "STATE_06",
+      "expected_input_value": "200.00"
+    },
+    {
+      "state_id": "STATE_06",
+      "sequence_index": 5,
+      "frame_image": "assets/STATE_06.png",
+      "action_type": "input",
+      "ui_element_name": "Out-of-Pocket Amount Input Box",
+      "instructional_hint": "Enter '50.00' into the Out-of-Pocket Amount field.",
+      "css_coordinates": {
+        "top": 61.5,
+        "left": 32.5,
+        "width": 23.2,
+        "height": 4.7
+      },
+      "next_state_id": "STATE_07",
+      "expected_input_value": "50.00"
+    },
+    {
+      "state_id": "STATE_07",
+      "sequence_index": 6,
+      "frame_image": "assets/STATE_07.png",
+      "action_type": "click",
+      "ui_element_name": "Adjudication Decision Dropdown",
+      "instructional_hint": "Click the Adjudication Decision dropdown to view options.",
+      "css_coordinates": {
+        "top": 70.4,
+        "left": 4.6,
+        "width": 26.9,
+        "height": 4.6
+      },
+      "next_state_id": "STATE_08"
+    },
+    {
+      "state_id": "STATE_08",
+      "sequence_index": 7,
+      "frame_image": "assets/STATE_08.png",
+      "action_type": "click",
+      "ui_element_name": "Adjudication Decision - Approve Option",
+      "instructional_hint": "Select 'Approve' from the list.",
+      "css_coordinates": {
+        "top": 70.3,
+        "left": 4.7,
+        "width": 26.8,
+        "height": 4.7
+      },
+      "next_state_id": "STATE_09"
+    },
+    {
+      "state_id": "STATE_09",
+      "sequence_index": 8,
+      "frame_image": "assets/STATE_09.png",
+      "action_type": "click",
+      "ui_element_name": "EOB / Explanation Code Dropdown",
+      "instructional_hint": "Click the EOB / Explanation Code dropdown menu.",
+      "css_coordinates": {
+        "top": 70.3,
+        "left": 32.5,
+        "width": 27.1,
+        "height": 4.6
+      },
+      "next_state_id": "STATE_10"
+    },
+    {
+      "state_id": "STATE_10",
+      "sequence_index": 9,
+      "frame_image": "assets/STATE_10.png",
+      "action_type": "click",
+      "ui_element_name": "EOB Code - E01 Option",
+      "instructional_hint": "Select 'E01 - Benefit Maximum Reached'.",
+      "css_coordinates": {
+        "top": 83.3,
+        "left": 32.4,
+        "width": 27.2,
+        "height": 4.6
+      },
+      "next_state_id": "STATE_11"
+    },
+    {
+      "state_id": "STATE_11",
+      "sequence_index": 10,
+      "frame_image": "assets/STATE_11.png",
+      "action_type": "click",
+      "ui_element_name": "Submit Assessment Button",
+      "instructional_hint": "Click Submit Assessment to finalize the claim decision.",
+      "css_coordinates": {
+        "top": 76.0,
+        "left": 4.6,
+        "width": 8.4,
+        "height": 4.8
+      },
+      "next_state_id": null
+    }
+  ]
+}

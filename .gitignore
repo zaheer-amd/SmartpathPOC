@@ -6,3 +6,7 @@ __pycache__/
 akka-orchestrator/target/
 akka-orchestrator/project/target/
 .vscode/
+
+# Simulation Module - Generated artifacts
+simulation_module/outputs/frames/
+simulation_module/inputs/demo_recording.mp4

@@ -1,7 +1,7 @@
 import json
 from knowledge.loader import get_policy_by_plan
 
-def evaluate_assessment(model, eligible_amount: float, oop_amount: float, decision: str, plan_class: str) -> dict:
+def evaluate_assessment(model, eligible_amount: float, oop_amount: float, decision: str, plan_class: str, scenario: dict) -> dict:
     """
     Evaluates trainee submission against the active knowledge layer policy rules.
     """
@@ -16,6 +16,8 @@ You are the SmartPath Assessment Evaluator.
 
 CURRENT CLAIM SCENARIO:
 - Plan Class: {plan_class}
+- Scenario Details:
+{json.dumps(scenario, indent=2)}
 
 TRAINEE SUBMISSION:
 - Trainee Eligible Amount: ${eligible_amount:.2f}
@@ -26,7 +28,8 @@ TASK:
 1. Refer strictly to the KNOWLEDGE BASE policy rules to determine the correct Eligible Amount, Out-of-Pocket Amount, and Decision for the current claim.
 2. Compare the trainee's submission against the policy rules.
 3. If all values are correct, Status is "Pass" and Score is 100. Otherwise, Status is "Fail" and Score is 0.
-4. Return ONLY a valid JSON object without markdown fences, matching this structure:
+4. IMPORTANT: Do NOT reveal the exact correct amounts or the final expected answers in your feedback. Simply explain what part of the policy rule they applied incorrectly or need to review.
+5. Return ONLY a valid JSON object without markdown fences, matching this structure:
 {{
     "Status": "Pass" or "Fail",
     "Score": 100 or 0,

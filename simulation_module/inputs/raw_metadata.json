@@ -1,0 +1,156 @@
+[
+    {
+        "state_id": "STATE_01",
+        "timestamp_in_video": "00:09",
+        "action_type": "input",
+        "ui_element_name": "Live Assistant Chat Input",
+        "expected_input_value": "help",
+        "bounding_box_1000": [
+            510,
+            606,
+            564,
+            915
+        ],
+        "instructional_hint": "Type 'help' in the chat box to request guidance on policy rules."
+    },
+    {
+        "state_id": "STATE_02",
+        "timestamp_in_video": "00:16",
+        "action_type": "click",
+        "ui_element_name": "Live Assistant Send Button",
+        "expected_input_value": null,
+        "bounding_box_1000": [
+            507,
+            912,
+            568,
+            946
+        ],
+        "instructional_hint": "Click the send arrow to submit your message to the Live Assistant."
+    },
+    {
+        "state_id": "STATE_03",
+        "timestamp_in_video": "00:33",
+        "action_type": "click",
+        "ui_element_name": "View Scanned Document Accordion Toggle",
+        "expected_input_value": null,
+        "bounding_box_1000": [
+            429,
+            46,
+            469,
+            376
+        ],
+        "instructional_hint": "Click here to expand and view the scanned invoice."
+    },
+    {
+        "state_id": "STATE_04",
+        "timestamp_in_video": "00:38",
+        "action_type": "click",
+        "ui_element_name": "System Rule Checks Accordion Toggle",
+        "expected_input_value": null,
+        "bounding_box_1000": [
+            278,
+            46,
+            318,
+            376
+        ],
+        "instructional_hint": "Click here to expand the System Rule Checks and Member Claim History section."
+    },
+    {
+        "state_id": "STATE_05",
+        "timestamp_in_video": "00:57",
+        "action_type": "input",
+        "ui_element_name": "Eligible Amount Input Box",
+        "expected_input_value": "200.00",
+        "bounding_box_1000": [
+            616,
+            47,
+            661,
+            282
+        ],
+        "instructional_hint": "Enter '200.00' into the Eligible Amount field."
+    },
+    {
+        "state_id": "STATE_06",
+        "timestamp_in_video": "01:10",
+        "action_type": "input",
+        "ui_element_name": "Out-of-Pocket Amount Input Box",
+        "expected_input_value": "50.00",
+        "bounding_box_1000": [
+            615,
+            325,
+            662,
+            557
+        ],
+        "instructional_hint": "Enter '50.00' into the Out-of-Pocket Amount field."
+    },
+    {
+        "state_id": "STATE_07",
+        "timestamp_in_video": "01:15",
+        "action_type": "click",
+        "ui_element_name": "Adjudication Decision Dropdown",
+        "expected_input_value": null,
+        "bounding_box_1000": [
+            704,
+            46,
+            750,
+            315
+        ],
+        "instructional_hint": "Click the Adjudication Decision dropdown to view options."
+    },
+    {
+        "state_id": "STATE_08",
+        "timestamp_in_video": "01:17",
+        "action_type": "click",
+        "ui_element_name": "Adjudication Decision - Approve Option",
+        "expected_input_value": null,
+        "bounding_box_1000": [
+            703,
+            47,
+            750,
+            315
+        ],
+        "instructional_hint": "Select 'Approve' from the list."
+    },
+    {
+        "state_id": "STATE_09",
+        "timestamp_in_video": "01:21",
+        "action_type": "click",
+        "ui_element_name": "EOB / Explanation Code Dropdown",
+        "expected_input_value": null,
+        "bounding_box_1000": [
+            703,
+            325,
+            749,
+            596
+        ],
+        "instructional_hint": "Click the EOB / Explanation Code dropdown menu."
+    },
+    {
+        "state_id": "STATE_10",
+        "timestamp_in_video": "01:25",
+        "action_type": "click",
+        "ui_element_name": "EOB Code - E01 Option",
+        "expected_input_value": null,
+        "bounding_box_1000": [
+            833,
+            324,
+            879,
+            596
+        ],
+        "instructional_hint": "Select 'E01 - Benefit Maximum Reached'."
+    },
+    {
+        "state_id": "STATE_11",
+        "timestamp_in_video": "01:28",
+        "action_type": "click",
+        "ui_element_name": "Submit Assessment Button",
+        "expected_input_value": null,
+        "bounding_box_1000": [
+            760,
+            46,
+            808,
+            130
+        ],
+        "instructional_hint": "Click Submit Assessment to finalize the claim decision."
+    }
+]
